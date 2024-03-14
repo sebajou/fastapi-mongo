@@ -15,12 +15,13 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
 
     class Config:
-        env_file = ".env.dev"
+        env_file = ".env.docker-compose"
         from_attributes = True
 
 
 async def initiate_database():
     client = AsyncIOMotorClient(Settings().DATABASE_URL)
     await init_beanie(
-        database=client.get_default_database(), document_models=models.__all__
+        database=client.get_default_database("student_db"), 
+        document_models=models.__all__
     )

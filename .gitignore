@@ -103,6 +103,7 @@ celerybeat.pid
 
 # Environments
 .env.dev
+.env.docker-compose
 .venv
 env/
 venv/

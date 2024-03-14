@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+import uvicorn
 
 from auth.jwt_bearer import JWTBearer
 from config.config import initiate_database
@@ -19,6 +20,8 @@ async def start_database():
 async def read_root():
     return {"message": "Welcome to this fantastic app."}
 
+def start():
+    uvicorn.run("app:app", host="0.0.0.0", port=8080, reload=True)
 
 app.include_router(AdminRouter, tags=["Administrator"], prefix="/admin")
 app.include_router(StudentRouter,tags=["Students"],prefix="/student",dependencies=[Depends(token_listener)],)
