@@ -44,9 +44,6 @@ tomli = "^2.0.1"
 typing-extensions = "^4.8.0"
 uvicorn = "^0.23.2"
 
-[tool.poetry.scripts]
-start = "app:start"
-
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.2"
 pytest = "^7.4.2"
