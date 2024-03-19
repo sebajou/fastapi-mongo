@@ -2,19 +2,19 @@ version: "3"
 
 services:
   rabbitmq:
-    image: "bitnami/rabbitmq:3.7"
+    build: 
+      context: .
+      dockerfile: Dockerfile-rabbitmq
     ports:
-      - "4369:4369"
       - "5672:5672"
-      - "25672:25672"
       - "15672:15672"
     volumes:
       - "rabbitmq_data:/bitnami"
 
   redis:
     image: "bitnami/redis:5.0.4"
-    environment:
-      - REDIS_PASSWORD=password123
+    env_file:
+      - .env.docker-compose.redis
     ports:
       - "6379:6379"
     volumes:
@@ -22,16 +22,8 @@ services:
 
   celery-flower:
     image: gregsi/latest-celery-flower-docker:latest
-    environment:
-      - AMQP_USERNAME=user
-      - AMQP_PASSWORD=bitnami
-      - AMQP_ADMIN_USERNAME=user
-      - AMQP_ADMIN_PASSWORD=bitnami
-      - AMQP_HOST=rabbitmq
-      - AMQP_PORT=5672
-      - AMQP_ADMIN_HOST=rabbitmq
-      - AMQP_ADMIN_PORT=15672
-      - FLOWER_BASIC_AUTH=user:test
+    env_file:
+      - .env.docker-compose.flower
     ports:
       - "5555:5555"
     depends_on:
@@ -45,7 +37,7 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env.docker-compose
+      - .env.docker-compose.fastapi
     depends_on:
       - rabbitmq
       - redis
@@ -60,8 +52,8 @@ services:
     ports:
       - "8888:8888"
     env_file:
-      - .env.docker-compose
-  
+      - .env.docker-compose.fastapi
+
 volumes:
   rabbitmq_data:
     driver: local
