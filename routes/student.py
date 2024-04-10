@@ -3,7 +3,7 @@ from fastapi import APIRouter, Body
 from database.database import *
 from models.student import Student
 from schemas.student import Response, UpdateStudentModel
-
+from .pika import send_message
 
 router = APIRouter()
 
@@ -49,6 +49,7 @@ async def add_student_data(student: Student = Body(...)):
         "description": "Student created successfully",
         "data": new_student,
     }
+    await send_message(new_student, request=Request)
 
 
 @router.delete("/{id}", response_description="Student data deleted from the database")

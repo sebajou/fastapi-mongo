@@ -35,7 +35,7 @@ services:
       context: .
       dockerfile: Dockerfile-api
     ports:
-      - "8080:8080"
+      - "8080:8080"                               
     env_file:
       - .env.docker-compose.fastapi
     depends_on:
