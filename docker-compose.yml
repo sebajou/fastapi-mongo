@@ -1,39 +1,63 @@
-version: "3"
+version: "4"
 
 services:
   rabbitmq:
-    build: 
-      context: .
-      dockerfile: Dockerfile-rabbitmq
+    image: "bitnami/rabbitmq:3.7"
+    container_name: rabbitmq
+    hostname: rabbitmq
     ports:
+      - "4369:4369"
       - "5672:5672"
+      - "25672:25672"
       - "15672:15672"
     volumes:
       - "rabbitmq_data:/bitnami"
+    networks:
+      - my_network
 
   redis:
     image: "bitnami/redis:5.0.4"
+    container_name: redis
     env_file:
-      - .env.docker-compose.redis
+      - .env.docker-compose
     ports:
       - "6379:6379"
     volumes:
       - "redis_data:/bitnami/redis/data"
+    networks:
+      - my_network
 
   celery-flower:
     image: gregsi/latest-celery-flower-docker:latest
+    container_name: celery
     env_file:
-      - .env.docker-compose.flower
+      - .env.docker-compose
     ports:
       - "5555:5555"
     depends_on:
       - rabbitmq
       - redis
+    networks:
+      - my_network
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - "mongodb_data:/mongodb/data"
+    networks:
+      - my_network
 
   fastapi:
     build:
       context: .
       dockerfile: Dockerfile-api
+    container_name: fastapi
     ports:
       - "8080:8080"                               
     env_file:
@@ -41,21 +65,35 @@ services:
     depends_on:
       - rabbitmq
       - redis
+      - mongodb
+      - celery-flower
+    networks:
+      - my_network
 
   fastworker:
     build:
       context: .
       dockerfile: Dockerfile-worker
+    container_name: fastworker
     depends_on:
       - rabbitmq
       - redis
+      - mongodb
+      - celery-flower
     ports:
       - "8888:8888"
     env_file:
       - .env.docker-compose.fastapi
+    networks:
+      - my_network
 
 volumes:
   rabbitmq_data:
     driver: local
   redis_data:
     driver: local
+  mongodb_data:
+    driver: local
+
+networks:
+  my_network:

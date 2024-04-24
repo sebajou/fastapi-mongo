@@ -14,19 +14,6 @@ from schemas.message import MessageSchema
 
 
 
-"""
-class FooApp(FastAPI):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.pika_client = PikaClient(self.log_incoming_message)
-
-    @classmethod
-    def log_incoming_message(cls, message: dict):
-        Method to do something meaningful with the incoming message
-        logger.info('Here we got incoming message %s', message)
-"""
-
 settings = Settings()
 app = FastAPI()
 # app = FooApp()
@@ -36,11 +23,10 @@ token_listener = JWTBearer()
 
 
 
-
 @app.on_event('startup')
 async def startup():
     await initiate_database()
-    await pika_client.receive_message(settings.CONSUME_QUEUE)
+    # await pika_client.receive_message(settings.CONSUME_QUEUE)
 
 
 @app.get("/", tags=["Root"])
@@ -52,7 +38,7 @@ async def read_root():
 async def send_message(payload: MessageSchema):
     await pika_client.send_message(
         settings.CONSUME_QUEUE,
-        {"message": payload.message}
+        {"message": payload}
     )
     return {"status": "ok"}
 

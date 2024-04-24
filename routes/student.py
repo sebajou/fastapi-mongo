@@ -42,14 +42,16 @@ async def get_student_data(id: PydanticObjectId):
     response_model=Response,
 )
 async def add_student_data(student: Student = Body(...)):
+    print('send student', student)
     new_student = await add_student(student)
+    print('new student', new_student)
+    await send_message(new_student)
     return {
         "status_code": 200,
         "response_type": "success",
         "description": "Student created successfully",
         "data": new_student,
     }
-    await send_message(new_student, request=Request)
 
 
 @router.delete("/{id}", response_description="Student data deleted from the database")

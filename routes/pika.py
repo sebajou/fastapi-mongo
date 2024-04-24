@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from schemas.message import MessageSchema
-
+from message_broker.pika_client import PikaClient
 
 router = APIRouter(
     tags=['items'],
@@ -10,8 +10,9 @@ router = APIRouter(
 
 
 @router.post('/send_message')
-async def send_message(payload: MessageSchema, request):
-    request.app.pika_client.send_message(
-        {"message": payload}
+async def send_message(payload):
+    pika_client = PikaClient()
+    await pika_client.send_message(
+        message={"message": payload}
     )
     return {"status": "ok"}
