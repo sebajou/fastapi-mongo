@@ -34,7 +34,7 @@ class PikaClient:
                 json_to_send = json.dumps(jsonable_encoder(message))
                 await channel.default_exchange.publish(
                     Message(body=json_to_send.encode(), delivery_mode=DeliveryMode.PERSISTENT),
-                    routing_key='student',
+                    routing_key=queue,
                 )
                 print(" [x] Sent %r" % message)
             except Exception as e:

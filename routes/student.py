@@ -45,7 +45,7 @@ async def add_student_data(student: Student = Body(...)):
     print('send student', student)
     new_student = await add_student(student)
     print('new student', new_student)
-    await send_message(new_student)
+    await send_message(new_student, 'student')
     return {
         "status_code": 200,
         "response_type": "success",

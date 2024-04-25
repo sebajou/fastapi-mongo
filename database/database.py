@@ -54,7 +54,7 @@ async def retrieve_springs() -> list[Spring]:
     return springs
 
 
-async def add_spring(new_spring: Student) -> Student:
+async def add_spring(new_spring: Spring) -> Student:
     spring = await new_spring.create()
     return spring
 

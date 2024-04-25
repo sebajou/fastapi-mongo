@@ -10,9 +10,10 @@ router = APIRouter(
 
 
 @router.post('/send_message')
-async def send_message(payload):
+async def send_message(payload, queue):
     pika_client = PikaClient()
     await pika_client.send_message(
-        message={"message": payload}
+        message={"message": payload},
+        queue=queue
     )
     return {"status": "ok"}

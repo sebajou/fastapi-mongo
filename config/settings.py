@@ -5,6 +5,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     # database configurations
     DATABASE_URL: Optional[str] = None
+    secret_key: Optional[str] = None
     RABBITMQ_PORT: Optional[str] = None
     RABBITMQ_USER: Optional[str] = None
     RABBITMQ_PASS: Optional[str] = None

@@ -45,7 +45,7 @@ async def add_spring_data(spring: Spring = Body(...)):
     print('send spring', spring)
     new_spring = await add_spring(spring)
     print('new spring', new_spring)
-    await send_message(new_spring)
+    await send_message(new_spring, 'spring')
     return {
         "status_code": 200,
         "response_type": "success",

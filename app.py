@@ -9,10 +9,9 @@ from config.config import initiate_database
 from message_broker.pika_client import PikaClient
 from routes.admin import router as AdminRouter
 from routes.student import router as StudentRouter
+from routes.spring import router as SpringRouter
 from routes.pika import router as PikaRouter
 from schemas.message import MessageSchema
-
-
 
 settings = Settings()
 app = FastAPI()
@@ -20,7 +19,6 @@ app = FastAPI()
 pika_client = PikaClient()
 
 token_listener = JWTBearer()
-
 
 
 @app.on_event('startup')
@@ -48,5 +46,6 @@ def start():
 
 
 app.include_router(AdminRouter, tags=["Administrator"], prefix="/admin")
-app.include_router(StudentRouter,tags=["Students"], prefix="/student",dependencies=[Depends(token_listener)],)
+app.include_router(StudentRouter, tags=["Students"], prefix="/student", dependencies=[Depends(token_listener)], )
+app.include_router(SpringRouter, tags=["Springs"], prefix="/spring", dependencies=[Depends(token_listener)], )
 app.include_router(PikaRouter, tags=["Pika"])

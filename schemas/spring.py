@@ -8,7 +8,7 @@ class UpdateSpringModel(BaseModel):
     name: Optional[str]
     composition: Optional[list]
     description: Optional[str]
-    brand: Optional[int]
+    brand: Optional[str]
     price: Optional[list]
     localisation: Optional[dict]
     startExploitationDate: Optional[date]
@@ -19,7 +19,6 @@ class UpdateSpringModel(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "id": "1",
                 "name": "Youngest spring source",
                 "composition": [
                     {
@@ -41,7 +40,7 @@ class UpdateSpringModel(BaseModel):
                 ],
                 "localisation": {
                     "longitude": 10,
-                    "lattitude": 10,
+                    "latitude": 10,
                 },
                 "startExploitationDate": "2022-01-01",
             }

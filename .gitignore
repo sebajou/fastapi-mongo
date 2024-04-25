@@ -104,6 +104,7 @@ celerybeat.pid
 # Environments
 .env.dev
 .env.docker-compose
+.env.docker-compose.fastapi
 .venv
 env/
 venv/
