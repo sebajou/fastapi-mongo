@@ -68,6 +68,9 @@ Fork the repo, make changes and send a PR. We'll review it together!
 This project is licensed under the terms of MIT license.
 
 # Todo
-+ Do test about Rabbit stuff. Send Rabbit message on queue when new student is created. 
-+ Do test about Celery stuff. Do Celery task for calculate the Mode, median, mean, variance and standard deviation and statistical stuff.
-+ Change DB and all the code from Student to Springs. 
++ Do test about Rabbit stuff. 
++ Listen rabbit spring queue
++ Remove all student stuff
++ Set collector from wiki
++ Do Celery task for calculate the Mode, median, mean, variance and standard deviation and statistical stuff.
++ Do test about Celery stuff. 
