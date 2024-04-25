@@ -7,9 +7,10 @@ import models as models
 
 settings = Settings()
 
+
 async def initiate_database():
     client = AsyncIOMotorClient(settings.DATABASE_URL)
     await init_beanie(
-        database=client.get_default_database("student_db"), 
+        database=client.get_default_database("student_db"),
         document_models=models.__all__
     )

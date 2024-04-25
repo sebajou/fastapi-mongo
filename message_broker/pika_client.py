@@ -27,6 +27,7 @@ class PikaClient:
 
             # Declare Queue
             await channel.declare_queue("student", durable=True)
+            await channel.declare_queue("spring", durable=True)
 
             try:
                 # Sending the message

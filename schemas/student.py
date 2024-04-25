@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, Any
 
+
 class UpdateStudentModel(BaseModel):
     fullname: Optional[str]
     email: Optional[EmailStr]
@@ -21,6 +22,7 @@ class UpdateStudentModel(BaseModel):
                 "gpa": "5.0",
             }
         }
+
 
 class Response(BaseModel):
     status_code: int

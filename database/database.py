@@ -3,10 +3,12 @@ from typing import List, Union
 from beanie import PydanticObjectId
 
 from models.admin import Admin
+from models.spring import Spring
 from models.student import Student
 
 admin_collection = Admin
 student_collection = Student
+spring_collection = Spring
 
 
 async def add_admin(new_admin: Admin) -> Admin:
@@ -44,4 +46,37 @@ async def update_student_data(id: PydanticObjectId, data: dict) -> Union[bool, S
     if student:
         await student.update(update_query)
         return student
+    return False
+
+
+async def retrieve_springs() -> list[Spring]:
+    springs = await spring_collection.all().to_list()
+    return springs
+
+
+async def add_spring(new_spring: Student) -> Student:
+    spring = await new_spring.create()
+    return spring
+
+
+async def retrieve_spring(id: PydanticObjectId) -> Spring:
+    spring = await spring_collection.get(id)
+    if spring:
+        return spring
+
+
+async def delete_spring(id: PydanticObjectId) -> bool:
+    spring = await spring_collection.get(id)
+    if spring:
+        await spring.delete()
+        return True
+
+
+async def update_spring_data(id: PydanticObjectId, data: dict) -> Spring | bool:
+    des_body = {k: v for k, v in data.items() if v is not None}
+    update_query = {"$set": {field: value for field, value in des_body.items()}}
+    spring = await spring_collection.get(id)
+    if spring:
+        await spring.update(update_query)
+        return spring
     return False
